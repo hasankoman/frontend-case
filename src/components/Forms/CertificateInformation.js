@@ -132,13 +132,12 @@ export default function CertificateInformation({
             name="company"
             onChange={handleChange}
             value={formValues.company}
-            pattern="[a-zA-Z]+"
             required
           />
           <label>Alındığı Kurum</label>
           <span
             className={`text-danger ${
-              !formValidation.company ? "d-block" : "d-none"
+              !formValidation.company ? "d-block" : "invisible"
             } `}
           >
             Bu alanı boş bırakmayınız
@@ -157,7 +156,7 @@ export default function CertificateInformation({
           <label>Sertifikanın Adı</label>
           <span
             className={`text-danger ${
-              !formValidation.certificateName ? "d-block" : "d-none"
+              !formValidation.certificateName ? "d-block" : "invisible"
             } `}
           >
             Bu alanı boş bırakmayınız
@@ -178,7 +177,7 @@ export default function CertificateInformation({
           </p>
           <span
             className={` text-danger ${
-              !formValidation.certificateYear ? "d-block" : "d-none"
+              !formValidation.certificateYear ? "d-block" : "invisible"
             } `}
           >
             Lütfen {currentYear - 10}-{currentYear} tarihleri arasında bir tarih
@@ -188,14 +187,14 @@ export default function CertificateInformation({
         <div className="d-flex justify-content-between mt-5">
           <button
             type="button"
-            className="btn btn-primary px-4"
+            className="btn btn-dark px-4"
             onClick={handlePrevClick}
           >
             Geri
           </button>
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${validation ? "" : "disabled"} `}
+            className={`btn btn-dark px-4 ${validation ? "" : "disabled"} `}
           >
             İleri
           </button>

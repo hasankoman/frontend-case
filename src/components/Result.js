@@ -12,8 +12,6 @@ export default function Result({ onIndex }) {
     about,
   } = useSelector((state) => state.information);
 
-  console.log(personalInformation);
-
   return (
     <>
       <div
@@ -26,8 +24,10 @@ export default function Result({ onIndex }) {
           <h5 className="text-success">Başvurunuzu başarıyla tamamladınız.</h5>
 
           <div className="">
-            <h6 className=" fw-bold ">Kişisel Bilgileriniz:</h6>
-            <ul>
+            <h6 className=" border-bottom d-inline  pb-1 border-2 border-dark bold ">
+              Kişisel Bilgileriniz:
+            </h6>
+            <ul className="mt-3">
               <li className=" fw-semibold ">
                 İsim Soyisim:{" "}
                 <span className=" fw-normal ">
@@ -55,8 +55,10 @@ export default function Result({ onIndex }) {
             </ul>
           </div>
           <div className="">
-            <h6 className=" fw-bold ">Eğitim Bilgileriniz:</h6>
-            <ul>
+            <h6 className=" border-bottom d-inline pb-1 border-2 border-dark fw-bold ">
+              Eğitim Bilgileriniz:
+            </h6>
+            <ul className="mt-3">
               <li className=" fw-semibold ">
                 Üniversite:{" "}
                 <span className=" fw-normal ">
@@ -72,8 +74,10 @@ export default function Result({ onIndex }) {
             </ul>
           </div>
           <div className="">
-            <h6 className=" fw-bold ">Sertifika Bilgileriniz:</h6>
-            <ul>
+            <h6 className=" border-bottom d-inline pb-1 border-2 border-dark fw-bold ">
+              Sertifika Bilgileriniz:
+            </h6>
+            <ul className="mt-3">
               <li className=" fw-semibold ">
                 Alındığı Kurum:{" "}
                 <span className=" fw-normal ">
@@ -95,8 +99,10 @@ export default function Result({ onIndex }) {
             </ul>
           </div>
           <div className="">
-            <h6 className=" fw-bold ">Uzmanlık Alanlarınız:</h6>
-            <ul>
+            <h6 className=" border-bottom d-inline pb-1 border-2 border-dark fw-bold ">
+              Uzmanlık Alanlarınız:
+            </h6>
+            <ul className="mt-3">
               {specializationAreas.map((field) => (
                 <li className=" fw-semibold ">
                   <span className="">{field}</span>
@@ -105,8 +111,10 @@ export default function Result({ onIndex }) {
             </ul>
           </div>
           <div className="">
-            <h6 className=" fw-bold ">Kategoriniz ve Ücret:</h6>
-            <ul>
+            <h6 className=" border-bottom d-inline pb-1 border-2 border-dark fw-bold ">
+              Kategoriniz ve Ücret:
+            </h6>
+            <ul className="mt-3">
               <li className=" fw-semibold ">
                 Kategori:{" "}
                 <span className=" fw-normal ">
@@ -132,13 +140,16 @@ export default function Result({ onIndex }) {
                   {categoriesPrices.category
                     ? dolarConverter(categoriesPrices.category.price)
                     : ""}
+                  $
                 </span>{" "}
               </li>
             </ul>
           </div>
-          <div className="">
-            <h6 className=" fw-bold ">Hakkınızda:</h6>
-            <p className="about-result fw-semibold ">
+          <div>
+            <h6 className=" border-bottom d-inline  pb-1 border-2 border-dark fw-bold ">
+              Hakkınızda:
+            </h6>
+            <p className="about-result mt-3 fw-semibold border-bottom border-top  ">
               <span className=" fw-normal ">{about.article}</span>{" "}
             </p>
           </div>

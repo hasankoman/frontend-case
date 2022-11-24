@@ -4,17 +4,8 @@ import {
   setSpecializationAreas,
   setFormValidations,
 } from "../../Store/information/information.slice";
-const fields = [
-  "HTML",
-  "CSS",
-  "Javascript",
-  "React",
-  "Java",
-  "Python",
-  "C",
-  "C++",
-  "C#",
-];
+import SelectInput from "../SelectInput";
+import SpecializationInput from "../SpecializationInput";
 
 export default function SpecializationAreas({
   onIndex,
@@ -26,31 +17,8 @@ export default function SpecializationAreas({
   );
   const dispatch = useDispatch();
   const [error, setError] = useState("");
-  const [seeOptions, setSeeOptions] = useState(false);
   const [validation, setValidation] = useState();
   const [formValues, setFormValues] = useState(specializationAreas);
-
-  const handleChange = (e) => {
-    const userField = e.target.value;
-    if (userField !== "0") {
-      const isExist = formValues.includes(userField);
-      if (formValues.length >= 5) {
-        setError(
-          "5 tane uzmanlık alanından fazla uzmanlık alanı seçemezsiniz."
-        );
-      } else {
-        if (isExist) {
-          setError(
-            userField +
-              " uzmanlık alanını zaten eklediniz. Lütfen daha önce eklemediğiniz bir uzmanlık alanı ekleyiniz."
-          );
-        } else {
-          setError("");
-          setFormValues([...formValues, e.target.value]);
-        }
-      }
-    }
-  };
 
   useEffect(() => {
     controlFormValidation();
@@ -79,12 +47,37 @@ export default function SpecializationAreas({
     }
   };
 
-  const handleClick = (e) => {
-    if (seeOptions) {
-      setSeeOptions(!seeOptions);
-      handleChange(e);
-    } else {
-      setSeeOptions(!seeOptions);
+  const handleChange = (userField) => {
+    if (userField !== "0") {
+      const isExist = formValues.includes(userField);
+
+      if (formValues.length >= 5) {
+        setError(
+          "5 tane uzmanlık alanından fazla uzmanlık alanı seçemezsiniz."
+        );
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      } else {
+        if (isExist) {
+          setError(
+            userField +
+              " uzmanlık alanını zaten eklediniz. Lütfen daha önce eklemediğiniz bir uzmanlık alanı ekleyiniz."
+          );
+          if (formValues.length < 2) {
+            setTimeout(() => {
+              setError("En az 2 uzmanlık alanı eklemelisiniz.");
+            }, 3000);
+          } else {
+            setTimeout(() => {
+              setError("");
+            }, 3000);
+          }
+        } else {
+          setFormValues([...formValues, userField]);
+          setError("");
+        }
+      }
     }
   };
 
@@ -125,31 +118,22 @@ export default function SpecializationAreas({
           Uzmanlık Alanları
         </h2>
         <div className="h-100 d-flex flex-column justify-content-center ">
-          <div className="form-floating mb-3">
-            <select
-              className="form-select "
-              aria-label="Default select example"
-              name="field"
-              onClick={handleClick}
-            >
-              <option value="0">--Uzmanlık Alanı Seç</option>
-              {fields.map((field, index) => (
-                <option key={index} value={field}>
-                  {field}
-                </option>
-              ))}
-            </select>
-            <label for="floatingSelect">Uzmanlık Alanı</label>
-            <span className={`text-danger ${error === "" ? "" : "d-block"} `}>
-              {error}
-            </span>
-          </div>
-          <div className="d-flex gap-2 justify-content-center mt-4 ">
+          
+          <SpecializationInput
+            handleChange={handleChange}
+            formValues={formValues}
+            setFormValues={setFormValues}
+            setValidation={setValidation}
+            validation={validation}
+            error={error}
+          />
+
+          <div className="d-flex gap-2 justify-content-center mt-4 flex-wrap ">
             {formValues.map((field, index) => (
               <button
                 type="button"
                 key={index}
-                className="btn btn-primary d-flex gap-2 justify-content-center align-items-center "
+                className="btn btn-warning d-flex gap-2 justify-content-center align-items-center "
                 onClick={() => handleDelete(field)}
               >
                 {field}
@@ -164,14 +148,14 @@ export default function SpecializationAreas({
         <div className="d-flex justify-content-between  mt-5">
           <button
             type="button"
-            className="btn btn-primary px-4"
+            className="btn btn-dark px-4"
             onClick={handlePrevClick}
           >
             Geri
           </button>
           <button
             type="submit"
-            className={` ${validation ? "" : "disabled"} btn btn-primary px-4`}
+            className={` ${validation ? "" : "disabled"} btn btn-dark px-4`}
           >
             İleri
           </button>

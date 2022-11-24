@@ -32,9 +32,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
     for (let index = 0; index <= lastValidatedForm - 1; index++) {
       arr.push(formValidations[tabs1[index]]);
     }
-    console.log(arr);
     const isValidate = Object.values(arr).every((value) => value === true);
-    console.log(isValidate);
     if (onIndex === 0) {
       if (!isValidate) {
         let index = onIndex + 1;
@@ -139,13 +137,13 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
       }  top-0  py-4 w-100 bg-black  tab `}
     >
       <div
-        className={` ${width >= 1200 ? "btn-group " : "btn-group-vertical"} ${
+        className={` ${width >= 1200 ? "btn-group " : "btn-group-vertical mb-3"} ${
           isOpen || width >= 1200 ? "d-flex" : "d-none"
         } `}
       >
         <button
           type="submit"
-          className={`btn btn-outline-success    ${
+          className={`btn btn-outline-secondary    ${
             lastValidatedForm >= 0 ? "" : "disabled"
           } ${disabledArray.includes("0") ? "disabled" : ""} ${
             onIndex === 0 ? "active" : ""
@@ -156,7 +154,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success    ${
+          className={`btn btn-outline-secondary    ${
             lastValidatedForm >= 1 ? "" : "disabled"
           } ${disabledArray.includes("1") ? "disabled" : ""} ${
             onIndex === 1 ? "active" : ""
@@ -167,7 +165,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success  ${
+          className={`btn btn-outline-secondary  ${
             onIndex === 2 ? "active" : ""
           }   ${lastValidatedForm >= 2 ? "" : "disabled"} ${
             disabledArray.includes("2") ? "disabled" : ""
@@ -178,7 +176,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success  ${
+          className={`btn btn-outline-secondary  ${
             onIndex === 3 ? "active" : ""
           }   ${lastValidatedForm >= 3 ? "" : "disabled"} ${
             disabledArray.includes("3") ? "disabled" : ""
@@ -189,7 +187,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success  ${
+          className={`btn btn-outline-secondary  ${
             onIndex === 4 ? "active" : ""
           }   ${lastValidatedForm >= 4 ? "" : "disabled"} ${
             disabledArray.includes("4") ? "disabled" : ""
@@ -200,7 +198,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success  ${
+          className={`btn btn-outline-secondary  ${
             onIndex === 5 ? "active" : ""
           }   ${lastValidatedForm >= 5 ? "" : "disabled"} ${
             disabledArray.includes("5") ? "disabled" : ""
@@ -211,7 +209,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success  ${
+          className={`btn btn-outline-secondary  ${
             onIndex === 6 ? "active" : ""
           }   ${lastValidatedForm >= 6 ? "" : "disabled"} ${
             disabledArray.includes("6") ? "disabled" : ""
@@ -222,7 +220,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
         <button
           type="submit"
-          className={`btn btn-outline-success  ${
+          className={`btn btn-outline-secondary  ${
             onIndex === 7 ? "active" : ""
           }   ${lastValidatedForm >= 7 ? "" : "disabled"} ${
             disabledArray.includes("7") ? "disabled" : ""
@@ -233,7 +231,7 @@ export default function Tabs({ onIndex, setOnIndex, lastValidatedForm }) {
         </button>
       </div>
       <button
-        className={`text-white bg-transparent fs-3 border-0 ${
+        className={`text-white bg-transparent menu-button fs-3 border-0 ${
           width >= 1200 ? "d-none" : "d-inline-block"
         }  `}
         onClick={() => setIsOpen(!isOpen)}

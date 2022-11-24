@@ -34,7 +34,7 @@ code {
 .main-container {
   width: 100vw;
   min-height: 100vh;
-  background-image: url(https://images.unsplash.com/photo-1669039643095-3f3de0351155?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1550&q=80);
+  background-image: url(https://images.unsplash.com/photo-1530519729491-aea5b51d1ee1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -60,12 +60,6 @@ form {
 .universities-select {
   cursor: text;
 }
-/* span {
-  display: none;
-}
-input:invalid ~ span {
-  display: block;
-} */
 .about-result {
   max-height: 200px;
   overflow-y: scroll;
@@ -113,9 +107,12 @@ input:invalid ~ span {
 }
 .option-menu li:hover {
   background-color: #eeeeee;
+
+  transition: all 0.2s ease-in-out;
 }
 .option-menu li:active {
   background-color: #d4d4d4;
+  transition: all 0.2s ease-in-out;
 }
 .selected-inp .form-select {
   padding: 1rem !important;
@@ -126,14 +123,56 @@ input:invalid ~ span {
   min-height: 100px;
 }
 
+.form-search-input {
+  height: calc(3.5rem + 2px);
+  padding: 1rem 0.75rem !important;
+  line-height: 1.25;
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+
+.form-search-input i {
+  background-color: #fff;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding-top: 2px;
+  right: 0;
+}
+.form-search-input span {
+  pointer-events: none;
+  user-select: none;
+}
+
+.form-search-input i.rotate {
+  transform: rotate(180deg);
+}
+.menu-button:hover {
+  opacity: 85%;
+}
+.menu-button:active {
+  opacity: 60%;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .form-container {
     width: 85%;
     padding: 2rem 1rem;
   }
-  span,
-  label {
+  span {
     font-size: 12px;
   }
   p,
@@ -151,8 +190,7 @@ input:invalid ~ span {
     width: 75%;
     padding: 2rem 1rem;
   }
-  span,
-  label {
+  span {
     font-size: 13px;
   }
   p,
@@ -170,8 +208,7 @@ input:invalid ~ span {
     width: 75%;
     padding: 2rem 1.5rem;
   }
-  span,
-  label {
+  span {
     font-size: 15px;
   }
   p,
@@ -189,8 +226,7 @@ input:invalid ~ span {
     width: 65%;
     padding: 2rem 1.5rem;
   }
-  span,
-  label {
+  span {
     font-size: 16px;
   }
   p,
@@ -211,8 +247,7 @@ input:invalid ~ span {
     width: 45%;
     padding: 2rem 4rem;
   }
-  span,
-  label {
+  span {
     font-size: 16px;
   }
   p,
@@ -228,8 +263,7 @@ input:invalid ~ span {
     width: 40%;
     padding: 2rem 4rem;
   }
-  span,
-  label {
+  span {
     font-size: 18px;
   }
   p,

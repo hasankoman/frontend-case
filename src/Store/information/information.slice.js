@@ -6,11 +6,7 @@ const initialState = {
   certificateInformation: {},
   specializationAreas: [],
   categoriesPrices: {},
-  about: {
-    language: "tr",
-    article:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eum repellendus voluptatem magnam vero ipsum ratione. Unde repellat optio totam atque dicta voluptatem ipsa, debitis ad distinctio odit consectetur nam autem, a molestiae ex libero necessitatibus ab delectus, qui eveniet sit. Nemo voluptatibus saepe dicta consequuntur, omnis dolore assumenda consectetur possimus delectus illo explicabo libero!Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eum repellendus voluptatem magnam vero ipsum ratione. Unde repellat optio totam atque dicta voluptatem ipsa, debitis ad distinctio odit consectetur nam autem, a molestiae ex libero necessitatibus ab delectus, qui eveniet sit. Nemo voluptatibus saepe dicta consequuntur, omnis dolore assumenda consectetur possimus delectus illo explicabo libero!",
-  },
+  about: {},
   contract: {},
   formValidations: {
     personalInformationValidation: false,

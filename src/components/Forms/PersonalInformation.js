@@ -57,6 +57,7 @@ export default function PersonalInformation({
 
   const getCurrentDate = () => {
     const d = new Date();
+    
     setCurrentDate(d.toISOString().slice(0, 10));
   };
 
@@ -168,7 +169,7 @@ export default function PersonalInformation({
           <label for="floatingNameSurname">İsim Soyisim</label>
           <span
             className={`text-danger ${
-              formValidation.nameSurname ? "d-none" : ""
+              formValidation.nameSurname ? "invisible" : ""
             } `}
           >
             Lütfen isim ve soyisminizi uygun şekilde giriniz.
@@ -212,7 +213,7 @@ export default function PersonalInformation({
           <span
             className={`text-danger ${
               formValidation.phoneNumber && formValidation.countryCode
-                ? "d-none"
+                ? "invisible"
                 : ""
             } `}
           >
@@ -232,7 +233,9 @@ export default function PersonalInformation({
           />
           <label for="floatingInput">Email</label>
           <span
-            className={`text-danger ${formValidation.email ? "d-none" : ""}  `}
+            className={`text-danger ${
+              formValidation.email ? "invisible" : ""
+            }  `}
           >
             Lütfen uygun bir email giriniz.
           </span>
@@ -243,15 +246,15 @@ export default function PersonalInformation({
             className="form-control"
             placeholder="Birthday"
             max={currentDate}
+            value={formValues.birthday ? formValues.birthday : currentDate}
             onChange={handleChange}
             name="birthday"
             required
-            value={formValues.birthday}
           />
           <label for="floatingInput">Doğum Tarihi</label>
           <span
             className={`text-danger ${
-              !formValidation.birthday ? "" : "d-none"
+              formValidation.birthday ? "invisible" : ""
             } `}
           >
             Lütfen uygun doğum tarihi giriniz.
@@ -260,7 +263,7 @@ export default function PersonalInformation({
         <div className="d-flex justify-content-end mt-5">
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${validation ? "" : "disabled"} `}
+            className={`btn btn-dark px-4 ${validation ? "" : "disabled"} `}
           >
             İleri
           </button>

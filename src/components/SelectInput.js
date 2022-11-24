@@ -30,7 +30,9 @@ export default function SelectInput({
 
   useEffect(() => {
     setFormValues({ ...formValues, university });
-    setFormValidation({ ...formValidation, university: true });
+    if (university !== "")
+      setFormValidation({ ...formValidation, university: true });
+    else setFormValidation({ ...formValidation, university: false });
   }, [university]);
 
   return (
@@ -40,8 +42,16 @@ export default function SelectInput({
           className="row g-2 selected-inp  "
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div className="form-select relative">
-            {university === "" ? "--Üniversite Seç" : university}
+          <div className="form-search-input relative   flex   ">
+            <span className="text-nowrap fs-6  ">
+              {university === "" ? "--Üniversite Seç" : university}
+            </span>
+
+            <i
+              class={`fa-solid fa-angle-down position-absolute  fs-4   ${
+                isOpen ? "rotate" : ""
+              } `}
+            ></i>
           </div>
         </div>
         <div
@@ -71,7 +81,7 @@ export default function SelectInput({
             </div>
           </div>
         </div>
-        <span className={`text-danger ${university ? "d-none" : "d-block"} `}>
+        <span className={`text-danger ${university ? "invisible" : ""} `}>
           Lütfen üniversite seçiniz.
         </span>
       </div>

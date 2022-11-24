@@ -144,14 +144,14 @@ export default function CategoriesPrices({
         <div className="d-flex justify-content-between mt-5">
           <button
             type="button"
-            className="btn btn-primary px-4"
+            className="btn btn-dark px-4"
             onClick={handlePrevClick}
           >
             Geri
           </button>
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${validation ? "" : "disabled"}  `}
+            className={`btn btn-dark px-4 ${validation ? "" : "disabled"}  `}
           >
             İleri
           </button>

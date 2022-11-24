@@ -15,6 +15,7 @@ export default function EducationInformation({
     (state) => state.information
   );
   const dispatch = useDispatch();
+  const [fileError, setFileError] = useState("");
   const [validation, setValidation] = useState();
 
   //Form Item Validation In Component
@@ -46,13 +47,29 @@ export default function EducationInformation({
   const handleChange = (e) => {
     const { name, files } = e.target;
     if (name === "graduateFile") {
+      console.log(files[0].size / 1048576);
+      console.log(files[0].size / 1048576 <= 2);
       if (
         e.target.files[0].type.includes("pdf") ||
         e.target.files[0].type.includes("jpg") ||
-        (e.target.files[0].type.includes("png") && files[0].size / 1048576 <= 2)
+        e.target.files[0].type.includes("png") ||
+        e.target.files[0].type.includes("PDF") ||
+        e.target.files[0].type.includes("JPG") ||
+        e.target.files[0].type.includes("PNG")
       ) {
-        setFormValidation({ ...formValidation, [name]: true });
+        if (files[0].size / 1048576 <= 2) {
+          setFormValidation({ ...formValidation, [name]: true });
+          setFileError();
+        } else {
+          setFileError(
+            "Lütfen dosya boyutu 2 mb'ın altında olan dosya yükleyiniz."
+          );
+          setFormValidation({ ...formValidation, [name]: false });
+        }
       } else {
+        setFileError(
+          "Lütfen uzantısı yukarda yazanlardan biri olan bir dosya yükleyiniz."
+        );
         setFormValidation({ ...formValidation, [name]: false });
       }
     }
@@ -143,7 +160,7 @@ export default function EducationInformation({
           </p>
           <span
             className={`text-danger ${
-              !formValidation.graduateYear ? "d-block" : "d-none"
+              !formValidation.graduateYear ? "" : "invisible"
             } `}
           >
             Lütfen uygun bir mezuniyet yılı giriniz.
@@ -166,27 +183,29 @@ export default function EducationInformation({
             <span className="fw-semibold d-inline-block ">
               Kabul edilen dosya uzantıları:
             </span>{" "}
-            .pdf, .png, .jpeg Yüklenecek maksimum dosya boyutu 2 mb'tır.
+            .pdf, .png, .jpg Yüklenecek maksimum dosya boyutu 2 mb'tır.
           </p>
           <span
             className={`text-danger ${
-              !formValidation.graduateFile ? "d-block" : "d-none"
+              !formValidation.graduateFile ? "" : "invisible"
             } `}
           >
-            Lütfen uygun bir dosya yükleyiniz.
+            {fileError === ""
+              ? "Lütfen uygun bir dosya yükleyiniz."
+              : fileError}
           </span>
         </div>
         <div className="d-flex justify-content-between mt-5">
           <button
             type="button"
-            className="btn btn-primary px-4"
+            className="btn btn-dark px-4"
             onClick={handlePrevClick}
           >
             Geri
           </button>
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${validation ? "" : "disabled"} `}
+            className={`btn btn-dark px-4 ${validation ? "" : "disabled"} `}
           >
             İleri
           </button>
