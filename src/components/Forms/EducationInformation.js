@@ -4,6 +4,7 @@ import {
   setFormValidations,
   setEducationInformation,
 } from "../../Store/information/information.slice";
+import SelectInput from "../SelectInput";
 
 export default function EducationInformation({
   setOnIndex,
@@ -14,81 +15,97 @@ export default function EducationInformation({
     (state) => state.information
   );
   const dispatch = useDispatch();
-  const [validation, setValidation] = useState({
-    university: educationInformation.university ? null : true,
+  const [validation, setValidation] = useState();
+
+  //Form Item Validation In Component
+  const [formValidation, setFormValidation] = useState({
+    university: educationInformation.university ? true : null,
     graduateYear: educationInformation.graduateYear ? true : null,
-    graduateFile: educationInformation.graduateFile ? false : null,
+    graduateFile: false,
   });
 
+  //Form Values
   const [formValues, setFormValues] = useState({
-    university: educationInformation.university,
-    graduateYear: educationInformation.graduateYear,
-    graduateFile: educationInformation.graduateFile,
+    university: educationInformation.university
+      ? educationInformation.university
+      : "",
+    graduateYear: educationInformation.graduateYear
+      ? educationInformation.graduateYear
+      : "",
+    graduateFile: educationInformation.graduateFile
+      ? educationInformation.graduateFile
+      : "",
   });
 
   useEffect(() => {
     controlFormValidation();
-  }, [formValues]);
+  }, [formValues, formValidation]);
   useEffect(() => {
     controlFormValidation();
   }, []);
   const handleChange = (e) => {
     const { name } = e.target;
     if (name === "graduateFile") {
-      const { files } = e.target;
-      setFormValues({ ...formValues, [name]: files });
       if (
         e.target.files[0].type.includes("pdf") ||
         e.target.files[0].type.includes("jpg") ||
         e.target.files[0].type.includes("png")
       ) {
-        setValidation({ ...validation, graduateFile: true });
+        setFormValidation({ ...formValidation, [name]: true });
       } else {
-        setValidation({ ...validation, graduateFile: false });
+        setFormValidation({ ...formValidation, [name]: false });
       }
     }
     if (name === "graduateYear") {
       const { value } = e.target;
       setFormValues({ ...formValues, [name]: value });
       if (Number(value) >= 1920 && Number(value) <= 2022) {
-        setValidation({ ...validation, graduateYear: true });
+        setFormValidation({ ...formValidation, graduateYear: true });
       } else {
-        setValidation({ ...validation, graduateYear: false });
+        setFormValidation({ ...formValidation, graduateYear: false });
       }
     }
+    controlFormValidation();
   };
 
   const controlFormValidation = () => {
-    console.log(validation);
-    console.log(formValidations);
-    if (Object.values(validation).every((value) => value === true)) {
+    if (Object.values(formValidation).every((value) => value === true)) {
       dispatch(
         setFormValidations({
           ...formValidations,
           educationInformationValidation: true,
         })
       );
+      setValidation(true);
     } else {
-      setFormValidations({
-        ...formValidations,
-        educationInformationValidation: false,
-      });
+      dispatch(
+        setFormValidations({
+          ...formValidations,
+          educationInformationValidation: false,
+        })
+      );
+      setValidation(false);
     }
-    console.log(formValidations);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loadForm();
+    setStore();
     setOnIndex(onIndex + 1);
     setLastValidatedForm(onIndex + 1);
   };
 
-  const loadForm = () => {
+  const handlePrevClick = () => {
+    setOnIndex(onIndex - 1);
+    setStore();
+  };
+
+  const setStore = () => {
+    const { graduateYear, university } = formValues;
     dispatch(
       setEducationInformation({
-        university: "Okan University",
-        graduateYear: formValues.graduateYear,
+        university,
+        graduateYear,
       })
     );
   };
@@ -96,7 +113,6 @@ export default function EducationInformation({
   return (
     <>
       <form
-        action=""
         className={`h-100 d-flex flex-column justify-content-between ${
           onIndex === 1 ? "" : "d-none"
         } `}
@@ -105,13 +121,13 @@ export default function EducationInformation({
         <h2 className=" pb-2 mb-5 text-center border-bottom ">
           Eğitim Bilgileri
         </h2>
-        <div className="form-floating row g-2 mb-3 ">
-          <div
-            className="form-select relative"
-            aria-label="Default select example "
-          ></div>
-          <label for="floatingSelect">Üniversite</label>
-        </div>
+        <SelectInput
+          formValues={formValues}
+          setFormValues={setFormValues}
+          setFormValidation={setFormValidation}
+          formValidation={formValidation}
+        />
+
         <div className="form-floating row g-2 mb-3">
           <input
             type="text"
@@ -127,7 +143,7 @@ export default function EducationInformation({
           </p>
           <span
             className={`text-danger ${
-              !validation.graduateYear ? "d-block" : "d-none"
+              !formValidation.graduateYear ? "d-block" : "d-none"
             } `}
           >
             Lütfen uygun bir mezuniyet yılı giriniz.
@@ -154,7 +170,7 @@ export default function EducationInformation({
           </p>
           <span
             className={`text-danger ${
-              !validation.graduateFile ? "d-block" : "d-none"
+              !formValidation.graduateFile ? "d-block" : "d-none"
             } `}
           >
             Lütfen uygun bir dosya yükleyiniz.
@@ -164,15 +180,13 @@ export default function EducationInformation({
           <button
             type="button"
             className="btn btn-primary px-4"
-            onClick={() => setOnIndex(onIndex - 1)}
+            onClick={handlePrevClick}
           >
             Geri
           </button>
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${
-              formValidations.educationInformationValidation ? "" : "disabled"
-            } `}
+            className={`btn btn-primary px-4 ${validation ? "" : "disabled"} `}
           >
             İleri
           </button>

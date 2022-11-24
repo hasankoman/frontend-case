@@ -15,16 +15,29 @@ export default function CertificateInformation({
     (state) => state.information
   );
   const dispatch = useDispatch();
-  const [validation, setValidation] = useState({
+
+  const currentYear = new Date().getFullYear();
+
+  const [formValidation, setFormValidation] = useState({
     company: certificateInformation.company ? true : null,
     certificateName: certificateInformation.certificateName ? true : null,
     certificateYear: certificateInformation.certificateYear ? true : null,
   });
 
+  const [validation, setValidation] = useState(
+    formValidations.certificateInformationValidation
+  );
+
   const [formValues, setFormValues] = useState({
-    company: certificateInformation.company,
-    certificateName: certificateInformation.certificateName,
-    certificateYear: certificateInformation.certificateYear,
+    company: certificateInformation.company
+      ? certificateInformation.company
+      : "",
+    certificateName: certificateInformation.certificateName
+      ? certificateInformation.certificateName
+      : "",
+    certificateYear: certificateInformation.certificateYear
+      ? certificateInformation.certificateYear
+      : "",
   });
 
   useEffect(() => {
@@ -37,51 +50,65 @@ export default function CertificateInformation({
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
     if (name === "company" || name === "certificateName") {
-      if (value.length >= 1) {
-        setValidation({ ...validation, [name]: true });
+      if (value.length >= 2) {
+        setFormValidation({ ...formValidation, [name]: true });
       } else {
-        setValidation({ ...validation, [name]: false });
+        setFormValidation({ ...formValidation, [name]: false });
       }
     }
     if (name === "certificateYear") {
-      const currentYear = new Date().getFullYear();
-      if (Number(value) >= currentYear - 10 && Number(value) <= currentYear) {
-        setValidation({ ...validation, certificateYear: true });
+      const intValue = parseInt(value);
+
+      if (intValue >= currentYear - 10 && intValue <= currentYear) {
+        setFormValidation({ ...formValidation, [name]: true });
       } else {
-        setValidation({ ...validation, certificateYear: false });
+        setFormValidation({ ...formValidation, [name]: false });
       }
     }
   };
 
   const controlFormValidation = () => {
-    if (Object.values(validation).every((value) => value === true)) {
+    if (Object.values(formValidation).every((value) => value === true)) {
+      console.log("xd2");
       dispatch(
         setFormValidations({
           ...formValidations,
           certificateInformationValidation: true,
         })
       );
+      setValidation(true);
     } else {
-      setFormValidations({
-        ...formValidations,
-        certificateInformationValidation: false,
-      });
+      console.log("xd");
+      dispatch(
+        setFormValidations({
+          ...formValidations,
+          certificateInformationValidation: false,
+        })
+      );
+
+      setValidation(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loadForm();
+    setStore();
     setLastValidatedForm(onIndex + 1);
     setOnIndex(onIndex + 1);
   };
 
-  const loadForm = () => {
+  const handlePrevClick = () => {
+    setOnIndex(onIndex - 1);
+    setStore();
+  };
+
+  const setStore = () => {
+    const { company, certificateName, certificateYear } = formValues;
     dispatch(
       setCertificateInformation({
-        company: formValues.company,
-        certificateName: formValues.certificateName,
-        certificateYear: formValues.certificateYear,
+        company,
+        certificateName,
+        certificateYear,
       })
     );
   };
@@ -92,6 +119,7 @@ export default function CertificateInformation({
         className={`h-100 d-flex flex-column justify-content-between ${
           onIndex === 2 ? "" : "d-none"
         } `}
+        onSubmit={handleSubmit}
       >
         <h2 className=" pb-2 mb-5 text-center border-bottom ">
           Sertifika Bilgileri
@@ -104,12 +132,13 @@ export default function CertificateInformation({
             name="company"
             onChange={handleChange}
             value={formValues.company}
+            pattern="[a-zA-Z]+"
             required
           />
           <label>Alındığı Kurum</label>
           <span
             className={`text-danger ${
-              !validation.company ? "d-block" : "d-none"
+              !formValidation.company ? "d-block" : "d-none"
             } `}
           >
             Bu alanı boş bırakmayınız
@@ -128,7 +157,7 @@ export default function CertificateInformation({
           <label>Sertifikanın Adı</label>
           <span
             className={`text-danger ${
-              !validation.certificateName ? "d-block" : "d-none"
+              !formValidation.certificateName ? "d-block" : "d-none"
             } `}
           >
             Bu alanı boş bırakmayınız
@@ -149,19 +178,24 @@ export default function CertificateInformation({
           </p>
           <span
             className={` text-danger ${
-              !validation.certificateYear ? "d-block" : "d-none"
+              !formValidation.certificateYear ? "d-block" : "d-none"
             } `}
-          ></span>
+          >
+            Lütfen {currentYear - 10}-{currentYear} tarihleri arasında bir tarih
+            giriniz.
+          </span>
         </div>
         <div className="d-flex justify-content-between mt-5">
-          <button type="submit" className="btn btn-primary px-4">
+          <button
+            type="button"
+            className="btn btn-primary px-4"
+            onClick={handlePrevClick}
+          >
             Geri
           </button>
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${
-              formValidations.certificateInformationValidation ? "" : "disabled"
-            } `}
+            className={`btn btn-primary px-4 ${validation ? "" : "disabled"} `}
           >
             İleri
           </button>

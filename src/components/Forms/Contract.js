@@ -1,6 +1,73 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setContract,
+  setFormValidations,
+} from "../../Store/information/information.slice";
 
-export default function Contract({ onIndex, setOnIndex }) {
+export default function Contract({
+  onIndex,
+  setOnIndex,
+  setLastValidatedForm,
+}) {
+  const { contract, formValidations } = useSelector(
+    (state) => state.information
+  );
+  const [formValues, setFormValues] = useState({
+    userAgreement: contract.userAgreement ? contract.userAgreement : false,
+    kvkk: contract.kvkk ? contract.kvkk : false,
+  });
+  const [validate, setValidate] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    const { name, checked } = e.target;
+    setFormValues((latest) => ({
+      ...latest,
+      [name]: checked,
+    }));
+  };
+
+  useEffect(() => {
+    if (formValues.userAgreement && formValues.kvkk) {
+      setValidate(true);
+      dispatch(
+        setFormValidations({
+          ...formValidations,
+          contractValidation: true,
+        })
+      );
+    } else {
+      setValidate(false);
+      dispatch(
+        setFormValidations({
+          ...formValidations,
+          contractValidation: false,
+        })
+      );
+    }
+  }, [formValues]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStore();
+    setLastValidatedForm(onIndex + 1);
+    setOnIndex(onIndex + 1);
+  };
+  const handlePrevClick = () => {
+    setOnIndex(onIndex - 1);
+    setStore();
+  };
+
+  const setStore = () => {
+    dispatch(
+      setContract({
+        userAgreement: formValues.userAgreement,
+        kvkk: formValues.kvkk,
+      })
+    );
+  };
+
   return (
     <>
       <form
@@ -8,6 +75,8 @@ export default function Contract({ onIndex, setOnIndex }) {
         className={`h-100 d-flex flex-column justify-content-between ${
           onIndex === 6 ? "" : "d-none"
         } `}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
       >
         <h2 className="  pb-2 mb-5 text-center border-bottom ">Sözleşme</h2>
         <div>
@@ -119,6 +188,7 @@ export default function Contract({ onIndex, setOnIndex }) {
               type="checkbox"
               value=""
               id="flexCheckDefault"
+              name="userAgreement"
             />
             <label class="form-check-label" for="flexCheckDefault">
               Kullanıcı sözleşmesini onaylıyorum.
@@ -130,15 +200,31 @@ export default function Contract({ onIndex, setOnIndex }) {
               type="checkbox"
               value=""
               id="flexCheckChecked"
+              name="kvkk"
             />
             <label class="form-check-label" for="flexCheckChecked">
               KVKK aydınlatma metnini onaylıyorum.
             </label>
           </div>
+          <span
+            className={`text-danger  mt-3 ${!validate ? "d-block" : "d-none"} `}
+          >
+            Başvuruyu tamamlamak için iki kutucuğu da onaylamanız gerekmektedir.
+          </span>
         </div>
 
-        <div className="d-flex justify-content-end mt-5">
-          <button type="submit" className="btn btn-primary px-4">
+        <div className="d-flex justify-content-between mt-5">
+          <button
+            type="button"
+            className="btn btn-primary px-4"
+            onClick={handlePrevClick}
+          >
+            Geri
+          </button>
+          <button
+            type="submit"
+            className={`btn btn-primary px-4 ${validate ? "" : "disabled"} `}
+          >
             Başvuruyu Tamamla
           </button>
         </div>

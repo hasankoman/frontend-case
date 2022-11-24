@@ -6,7 +6,12 @@ const initialState = {
   certificateInformation: {},
   specializationAreas: [],
   categoriesPrices: {},
-  about: {},
+  about: {
+    language: "tr",
+    article:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eum repellendus voluptatem magnam vero ipsum ratione. Unde repellat optio totam atque dicta voluptatem ipsa, debitis ad distinctio odit consectetur nam autem, a molestiae ex libero necessitatibus ab delectus, qui eveniet sit. Nemo voluptatibus saepe dicta consequuntur, omnis dolore assumenda consectetur possimus delectus illo explicabo libero!Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eum repellendus voluptatem magnam vero ipsum ratione. Unde repellat optio totam atque dicta voluptatem ipsa, debitis ad distinctio odit consectetur nam autem, a molestiae ex libero necessitatibus ab delectus, qui eveniet sit. Nemo voluptatibus saepe dicta consequuntur, omnis dolore assumenda consectetur possimus delectus illo explicabo libero!",
+  },
+  contract: {},
   formValidations: {
     personalInformationValidation: false,
     educationInformationValidation: false,
@@ -25,29 +30,25 @@ export const informationSlice = createSlice({
     setPersonalInformation: (state, action) => {
       state.personalInformation = action.payload;
     },
-    updatePersonalInformation: (state, action) => {},
     setEducationInformation: (state, action) => {
       state.educationInformation = action.payload;
     },
-    updateEducationInformation: (state, action) => {},
     setCertificateInformation: (state, action) => {
       state.certificateInformation = action.payload;
     },
     setSpecializationAreas: (state, action) => {
       state.specializationAreas = action.payload;
     },
-    updateSpecializationAreas: (state, action) => {},
     setCategoriesPrices: (state, action) => {
       state.categoriesPrices = action.payload;
     },
-    updateCategoriesPrices: (state, action) => {},
-
     setAbout: (state, action) => {
       state.about = action.payload;
     },
-    updateAbout: (state, action) => {},
+    setContract: (state, action) => {
+      state.contract = action.payload;
+    },
     setFormValidations: (state, action) => {
-      console.log(action.payload);
       state.formValidations = action.payload;
     },
   },
@@ -56,19 +57,16 @@ export const informationSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setPersonalInformation,
-  updatePersonalInformation,
   setEducationInformation,
-  updateEducationInformation,
   setSpecializationAreas,
-  updateSpecializationAreas,
   setCategoriesPrices,
-  updateCategoriesPrices,
   setAbout,
-  updateAbout,
   formValidations,
   setFormValidations,
   certificateInformation,
   setCertificateInformation,
+  setContract,
+  contract,
 } = informationSlice.actions;
 
 export default informationSlice.reducer;

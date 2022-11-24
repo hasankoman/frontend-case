@@ -21,7 +21,7 @@ import About from "./Forms/About";
 import Contract from "./Forms/Contract";
 import Result from "./Result";
 
-export default function Form({ onIndex, setOnIndex,setLastValidatedForm }) {
+export default function Form({ onIndex, setOnIndex, setLastValidatedForm }) {
   const [form, setForm] = useState();
   const [result, setResult] = useState();
   const [validation, setValidation] = useState(false);
@@ -66,15 +66,43 @@ export default function Form({ onIndex, setOnIndex,setLastValidatedForm }) {
   // }, [onIndex]);
 
   return (
-    <div className="form-container" >
+    <div className="form-container">
       {/* {onIndex === 7 ? result : form} */}
-      <PersonalInformation setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
-      <EducationInformation setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
-      <CertificateInformation setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
-      <SpecializationAreas setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
-      <CategoriesPrices setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
-      <About setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
-      <Contract setOnIndex={setOnIndex} onIndex={onIndex} setLastValidatedForm={setLastValidatedForm} />
+      <PersonalInformation
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
+      <EducationInformation
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
+      <CertificateInformation
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
+      <SpecializationAreas
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
+      <CategoriesPrices
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
+      <About
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
+      <Contract
+        setOnIndex={setOnIndex}
+        onIndex={onIndex}
+        setLastValidatedForm={setLastValidatedForm}
+      />
       <Result onIndex={onIndex} />
     </div>
   );

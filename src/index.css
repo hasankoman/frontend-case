@@ -9,8 +9,10 @@ a {
 li {
   list-style: none;
 }
-p {
+p,
+ul {
   margin: 0 !important;
+  padding: 0 !important;
 }
 
 body {
@@ -26,27 +28,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.App {
+  overflow: hidden;
+}
 .main-container {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url(https://images.unsplash.com/photo-1669039643095-3f3de0351155?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1550&q=80);
   background-repeat: no-repeat;
   background-size: cover;
 }
+form {
+  min-height: 400px;
+}
 .form-container {
   width: 35%;
+  margin: 120px 0;
   padding: 2rem 4rem;
   min-height: 500px;
-  border: 1px solid black;
+  border: 1px solid #ced4da;
   background-color: white;
   border-radius: 12px;
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
-    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-}
-
-#about-text-area {
-  resize: none;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 .contract-1,
 .contract-2 {
@@ -56,9 +60,183 @@ code {
 .universities-select {
   cursor: text;
 }
-span {
+/* span {
   display: none;
 }
 input:invalid ~ span {
   display: block;
+} */
+.about-result {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+.option-menu {
+  width: 100%;
+  z-index: 10;
+  height: 300px;
+  background-color: white;
+  border: 1px solid #ced4da;
+  overflow-y: scroll;
+}
+.select-uni {
+  pointer-events: none;
+}
+.search-uni {
+  border: 0;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-bottom: 3px solid #ced4da;
+  position: sticky;
+  top: 0;
+  font-size: 18px;
+  cursor: default;
+}
+.search-uni:focus,
+.search-uni:focus-visible {
+  outline: 0;
+}
+.option-menu li {
+  text-align: center;
+  cursor: pointer;
+}
+.tab {
+  z-index: 9999;
+}
+.tab .btn-group {
+}
+.option-menu li div {
+  padding: 0.5rem;
+  margin: 0 15px;
+  border-bottom: 1px solid #ced4da;
+  display: block;
+  height: 100%;
+}
+.option-menu li:hover {
+  background-color: #eeeeee;
+}
+.option-menu li:active {
+  background-color: #d4d4d4;
+}
+.selected-inp .form-select {
+  padding: 1rem !important;
+  pointer-events: none;
+}
+.text-area-container textarea {
+  max-height: 200px;
+  min-height: 100px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .form-container {
+    width: 85%;
+    padding: 2rem 1rem;
+  }
+  span,
+  label {
+    font-size: 12px;
+  }
+  p,
+  button {
+    font-size: 13px;
+  }
+  h2 {
+    font-size: 14px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .form-container {
+    width: 75%;
+    padding: 2rem 1rem;
+  }
+  span,
+  label {
+    font-size: 13px;
+  }
+  p,
+  button {
+    font-size: 14px;
+  }
+  h2 {
+    font-size: 15px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .form-container {
+    width: 75%;
+    padding: 2rem 1.5rem;
+  }
+  span,
+  label {
+    font-size: 15px;
+  }
+  p,
+  button {
+    font-size: 16px;
+  }
+  h2 {
+    font-size: 17px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .form-container {
+    width: 65%;
+    padding: 2rem 1.5rem;
+  }
+  span,
+  label {
+    font-size: 16px;
+  }
+  p,
+  button {
+    font-size: 17px;
+  }
+  h2 {
+    font-size: 18px;
+  }
+  /* .tab-group {
+    display: none;
+  } */
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .form-container {
+    width: 45%;
+    padding: 2rem 4rem;
+  }
+  span,
+  label {
+    font-size: 16px;
+  }
+  p,
+  button {
+    font-size: 17px;
+  }
+  h2 {
+    font-size: 18px;
+  }
+}
+@media only screen and (min-width: 1800px) {
+  .form-container {
+    width: 40%;
+    padding: 2rem 4rem;
+  }
+  span,
+  label {
+    font-size: 18px;
+  }
+  p,
+  button {
+    font-size: 19px;
+  }
+  h2 {
+    font-size: 20px;
+  }
 }

@@ -1,0 +1,80 @@
+import React, { useEffect, useState } from "react";
+import universities from "../Helpers/universities.json";
+
+export default function SelectInput({
+  formValues,
+  setFormValues,
+  setFormValidation,
+  formValidation,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [sortedUniversities, setSortedUniversities] = useState([]);
+  const [university, setUniversity] = useState("");
+
+  useEffect(() => {
+    setSortedUniversities(
+      universities.filter((u) => {
+        return (
+          u["College Name"].toLowerCase().indexOf(searchText.toLowerCase()) !==
+          -1
+        );
+      })
+    );
+  }, [searchText]);
+
+  const handleClick = (u) => {
+    setUniversity(u["College Name"]);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    setFormValues({ ...formValues, university });
+    setFormValidation({ ...formValidation, university: true });
+  }, [university]);
+
+  return (
+    <>
+      <div className="position-relative mb-3 ">
+        <div
+          className="row g-2 selected-inp  "
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="form-select relative">
+            {university === "" ? "--Üniversite Seç" : university}
+          </div>
+        </div>
+        <div
+          className={`position-absolute option-menu  rounded-bottom  ${
+            isOpen ? "d-block" : "d-none"
+          } `}
+        >
+          <div className="h-100 position-relative ">
+            <div className=" position-sticky top-0">
+              <input
+                type="text"
+                className="search-uni "
+                placeholder="Üniversite Ara"
+                name="university"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+            </div>
+            <div>
+              <ul>
+                {sortedUniversities.map((uni) => (
+                  <li onClick={() => handleClick(uni)}>
+                    <div>{uni["College Name"]}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <span className={`text-danger ${university ? "d-none" : "d-block"} `}>
+          Lütfen üniversite seçiniz.
+        </span>
+      </div>
+    </>
+  );
+}

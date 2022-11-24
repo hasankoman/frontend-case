@@ -15,32 +15,50 @@ export default function PersonalInformation({
     (state) => state.information
   );
   const dispatch = useDispatch();
-  const [validation, setValidation] = useState({
+
+  const [currentDate, setCurrentDate] = useState();
+
+  //Form Item Validation In Component
+  const [formValidation, setFormValidation] = useState({
     nameSurname: personalInformation.nameSurname ? true : null,
     phoneNumber: personalInformation.phoneNumber ? true : null,
     email: personalInformation.email ? true : null,
     birthday: personalInformation.birthday ? true : null,
-    countryCode: personalInformation.countryCode ? true : false,
+    countryCode: personalInformation.countryCode ? true : null,
   });
 
-  const [formValues, setFormValues] = useState({
-    nameSurname: personalInformation.nameSurname,
-    email: personalInformation.email,
-    countryCode: personalInformation.countryCode,
-    birthday: personalInformation.birthday,
-    phoneNumber: personalInformation.phoneNumber,
-  });
-
-  const [formValidation, setFormValidation] = useState(
+  //All Validate
+  const [validation, setValidation] = useState(
     formValidations.personalInformationValidation
   );
+
+  //Form Values
+  const [formValues, setFormValues] = useState({
+    nameSurname: personalInformation.nameSurname
+      ? personalInformation.nameSurname
+      : "",
+    email: personalInformation.email ? personalInformation.email : "",
+    countryCode: personalInformation.countryCode
+      ? personalInformation.countryCode
+      : "",
+    birthday: personalInformation.birthday ? personalInformation.birthday : "",
+    phoneNumber: personalInformation.phoneNumber
+      ? personalInformation.phoneNumber
+      : "",
+  });
 
   useEffect(() => {
     controlFormValidation();
   }, [formValues]);
   useEffect(() => {
     controlFormValidation();
+    getCurrentDate();
   }, []);
+
+  const getCurrentDate = () => {
+    const d = new Date();
+    setCurrentDate(d.toISOString().slice(0, 10));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,44 +67,66 @@ export default function PersonalInformation({
     if (name === "nameSurname") {
       let nameSurnameValidity = e.target.validity.valid;
       if (nameSurnameValidity) {
-        setValidation({ ...validation, nameSurname: true });
+        setFormValidation({ ...formValidation, [name]: true });
       } else {
-        setValidation({ ...validation, nameSurname: false });
+        setFormValidation({ ...formValidation, [name]: false });
       }
     }
     if (name === "email") {
       let emailValidity = e.target.validity.valid;
       if (emailValidity) {
-        setValidation({ ...validation, email: true });
+        setFormValidation({ ...formValidation, email: true });
       } else {
-        setValidation({ ...validation, email: false });
+        setFormValidation({ ...formValidation, email: false });
+      }
+    }
+    if (name === "countryCode") {
+      if (value === "0") {
+        setFormValidation({ ...formValidation, [name]: false });
+      } else {
+        setFormValidation({ ...formValidation, [name]: true });
       }
     }
     if (name === "phoneNumber") {
       let phoneNumberValidity = e.target.validity.valid;
       if (phoneNumberValidity) {
-        setValidation({ ...validation, phoneNumber: true });
+        setFormValidation({ ...formValidation, [name]: true });
       } else {
-        setValidation({ ...validation, phoneNumber: false });
+        setFormValidation({ ...formValidation, [name]: false });
       }
     }
     if (name === "birthday") {
       let birthdayValidity = e.target.validity.valid;
       if (birthdayValidity) {
-        setValidation({ ...validation, birthday: true });
+        setFormValidation({ ...formValidation, [name]: true });
       } else {
-        setValidation({ ...validation, birthday: false });
-      }
-    }
-    if (name === "countryCode") {
-      if (e.target.value !== "0") {
-        setValidation({ ...validation, countryCode: true });
-      } else {
-        setValidation({ ...validation, countryCode: false });
+        setFormValidation({ ...formValidation, [name]: false });
       }
     }
   };
 
+  //Redux Set Form Validation
+  const controlFormValidation = () => {
+    if (Object.values(formValidation).every((value) => value === true)) {
+      setValidation(true);
+      dispatch(
+        setFormValidations({
+          ...formValidations,
+          personalInformationValidation: true,
+        })
+      );
+    } else {
+      dispatch(
+        setFormValidations({
+          ...formValidations,
+          personalInformationValidation: false,
+        })
+      );
+      setValidation(false);
+    }
+  };
+
+  //Redux Set Form
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -98,30 +138,14 @@ export default function PersonalInformation({
         phoneNumber: formValues.phoneNumber,
       })
     );
+
     setLastValidatedForm(onIndex + 1);
     setOnIndex(onIndex + 1);
-  };
-
-  const controlFormValidation = () => {
-    if (Object.values(validation).every((value) => value === true)) {
-      setFormValidations({
-        ...formValidations,
-        personalInformationValidation: true,
-      });
-      setFormValidation(true);
-    } else {
-      setFormValidations({
-        ...formValidations,
-        personalInformationValidation: false,
-      });
-      setFormValidation(false);
-    }
   };
 
   return (
     <>
       <form
-        action=""
         className={`h-100 d-flex flex-column justify-content-between ${
           onIndex === 0 ? "" : "d-none"
         } `}
@@ -143,14 +167,16 @@ export default function PersonalInformation({
           />
           <label for="floatingNameSurname">İsim Soyisim</label>
           <span
-            className={`text-danger ${validation.nameSurname ? "d-none" : ""} `}
+            className={`text-danger ${
+              formValidation.nameSurname ? "d-none" : ""
+            } `}
           >
             Lütfen isim ve soyisminizi uygun şekilde giriniz.
           </span>
         </div>
         <div className=" row gx-2 mb-3">
-          <div className="col-3">
-            <div className="form-floating ">
+          <div className="col-4 col-sm-3">
+            <div className="form-floating">
               <select
                 className="form-select py-0"
                 name="countryCode"
@@ -158,7 +184,7 @@ export default function PersonalInformation({
                 required
                 value={formValues.countryCode}
               >
-                <option value="0">--Seç--</option>
+                <option value="0">--Seç</option>
                 {countryCodes.countries.map((country, index) => (
                   <option key={index} value={country.code}>
                     {country.code}
@@ -167,7 +193,8 @@ export default function PersonalInformation({
               </select>
             </div>
           </div>
-          <div className="col-9">
+
+          <div className="col-8 col-sm-9">
             <div className="form-floating ">
               <input
                 type="tel"
@@ -180,13 +207,16 @@ export default function PersonalInformation({
                 required
               />
               <label for="floatingNumber">Telefon Numarası</label>
-              <span className={`text-danger`}>
-                Lütfen uygun bir telefon numarası giriniz.
-              </span>
             </div>
           </div>
-          <span className={`text-danger  `}>
-            Lütfen uygun telefon numarası giriniz.
+          <span
+            className={`text-danger ${
+              formValidation.phoneNumber && formValidation.countryCode
+                ? "d-none"
+                : ""
+            } `}
+          >
+            Lütfen uygun bir telefon numarası giriniz.
           </span>
         </div>
         <div className="form-floating mb-3 ">
@@ -201,7 +231,9 @@ export default function PersonalInformation({
             required
           />
           <label for="floatingInput">Email</label>
-          <span className={`text-danger ${validation.email ? "d-none" : ""}  `}>
+          <span
+            className={`text-danger ${formValidation.email ? "d-none" : ""}  `}
+          >
             Lütfen uygun bir email giriniz.
           </span>
         </div>
@@ -210,7 +242,7 @@ export default function PersonalInformation({
             type="date"
             className="form-control"
             placeholder="Birthday"
-            max="2022-11-22"
+            max={currentDate}
             onChange={handleChange}
             name="birthday"
             required
@@ -218,7 +250,9 @@ export default function PersonalInformation({
           />
           <label for="floatingInput">Doğum Tarihi</label>
           <span
-            className={`text-danger ${!validation.birthday ? "" : "d-none"} `}
+            className={`text-danger ${
+              !formValidation.birthday ? "" : "d-none"
+            } `}
           >
             Lütfen uygun doğum tarihi giriniz.
           </span>
@@ -226,9 +260,7 @@ export default function PersonalInformation({
         <div className="d-flex justify-content-end mt-5">
           <button
             type="submit"
-            className={`btn btn-primary px-4 ${
-              formValidation ? "" : "disabled"
-            } `}
+            className={`btn btn-primary px-4 ${validation ? "" : "disabled"} `}
           >
             İleri
           </button>
