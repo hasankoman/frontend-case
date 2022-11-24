@@ -3,8 +3,8 @@ import Form from "../components/Form";
 import Tabs from "../components/Tabs";
 
 export default function Main() {
-  const [onIndex, setOnIndex] = useState(7);
-  const [lastValidatedForm, setLastValidatedForm] = useState(7);
+  const [onIndex, setOnIndex] = useState(0);
+  const [lastValidatedForm, setLastValidatedForm] = useState(0);
 
   return (
     <div className="d-flex flex-column align-items-center justify-content-evenly main-container position-relative ">
