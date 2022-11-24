@@ -163,7 +163,7 @@ export default function PersonalInformation({
             name="nameSurname"
             onChange={handleChange}
             required
-            pattern="^([a-zA-Z]{1,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}\s?([a-zA-Z]{1,})?)"
+            pattern="^([a-zA-ZğüşöçıİĞÜŞÖÇ]{1,}\s[a-zA-ZğüşöçıİĞÜŞÖÇ]{1,}'?-?[a-zA-ZğüşöçıİĞÜŞÖÇ]{1,}\s?([a-zA-ZğüşöçıİĞÜŞÖÇ]{1,})?)"
           />
           <label for="floatingNameSurname">İsim Soyisim</label>
           <span

@@ -44,12 +44,12 @@ export default function EducationInformation({
     controlFormValidation();
   }, []);
   const handleChange = (e) => {
-    const { name } = e.target;
+    const { name, files } = e.target;
     if (name === "graduateFile") {
       if (
         e.target.files[0].type.includes("pdf") ||
         e.target.files[0].type.includes("jpg") ||
-        e.target.files[0].type.includes("png")
+        (e.target.files[0].type.includes("png") && files[0].size / 1048576 <= 2)
       ) {
         setFormValidation({ ...formValidation, [name]: true });
       } else {
